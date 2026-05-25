@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AK STUDIO | תנאי שימוש</title>
+  <meta name="description" content="תנאי שימוש של AK STUDIO - ברוכים הבאים לאתר AK Studio. שימוש באתר מהווה הסכמה לתנאים המפורטים."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+  /* ── RESET & BASE ── */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#05070d;
+    --s1:#0d1117;
+    --s2:#161c2b;
+    --s3:#1e2538;
+    --glass:rgba(13,17,23,0.75);
+    --glass2:rgba(22,28,43,0.8);
+    --txt:#f0f4fa;
+    --muted:#8899aa;
+    --subtle:#4a5568;
+    --blue:#3c8cff;
+    --blue2:#5ba3ff;
+    --glow:rgba(36, 36, 36, 0.18);
+    --glow2:rgba(60,140,255,0.08);
+    --border:rgba(255,255,255,0.07);
+    --border2:rgba(255,255,255,0.13);
+    --radius:14px;
+    --radius-lg:20px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:'Noto Sans Hebrew',sans-serif;
+    font-weight:400;line-height:1.6;
+    overflow-x:hidden;direction:rtl;
+  }
+
+  /* ── NOISE ── */
+  body::after{
+    content:'';position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-size:300px;pointer-events:none;z-index:9999;opacity:1;
+  }
+
+  /* ── SCROLL PROGRESS ── */
+  #scroll-progress{
+    position:fixed;top:0;right:0;left:0;height:2px;
+    background:linear-gradient(to left,var(--blue2),#8ac4ff);
+    transform-origin:right;transform:scaleX(0);
+    z-index:9998;transition:transform .1s linear;
+  }
+
+  /* ── CURSOR GLOW ── */
+  #cursor-glow{
+    position:fixed;width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(circle,rgba(60,140,255,.06) 0%,transparent 70%);
+    pointer-events:none;z-index:0;
+    transform:translate(-50%,-50%);
+    transition:opacity .4s;
+    opacity:0;
+  }
+
+  /* ── AMBIENT GLOWS ── */
+  .ambient{
+    position:absolute;border-radius:50%;filter:blur(80px);
+    pointer-events:none;z-index:0;
+  }
+  .ambient-1{
+    width:500px;height:500px;
+    background:radial-gradient(circle,rgba(60,140,255,.07) 0%,transparent 70%);
+    top:-100px;right:-100px;
+  }
+  .ambient-2{
+    width:400px;height:400px;
+    background:radial-gradient(circle,rgba(91,163,255,.05) 0%,transparent 70%);
+    bottom:0;left:-80px;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     NAV
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  #nav{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%) translateY(-8px);
+    width:min(calc(100% - 32px),1140px);
+    background:rgba(5,7,13,0.6);
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:10px 10px 10px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    z-index:900;
+    opacity:0;
+    transition:opacity .5s var(--ease),transform .5s var(--ease),background .3s;
+  }
+  #nav.in{opacity:1;transform:translateX(-50%) translateY(0)}
+  #nav.scrolled{background:rgba(5,7,13,0.88)}
+  .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+  .nav-logo img{height:38px;width:auto}
+  .nav-links{display:flex;align-items:center;gap:4px;list-style:none;flex:1;justify-content:center}
+  .nav-links a{
+    color:rgba(240,244,250,.65);text-decoration:none;
+    font-size:.82rem;font-weight:500;padding:7px 14px;
+    border-radius:999px;
+    transition:color .2s,background .2s;
+  }
+  .nav-links a:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+  .nav-cta{
+    background:var(--blue);color:#fff;
+    padding:9px 22px;border-radius:999px;
+    font-size:.83rem;font-weight:700;text-decoration:none;white-space:nowrap;
+    transition:transform .25s var(--ease),box-shadow .25s,opacity .2s;
+    box-shadow:0 0 24px rgba(60,140,255,.28);flex-shrink:0;
+  }
+  .nav-cta:hover{transform:translateY(-1px) scale(1.02);box-shadow:0 4px 32px rgba(60,140,255,.45);opacity:.95}
+  .hamburger{
+    display:none;flex-direction:column;gap:5px;
+    cursor:pointer;padding:8px;border-radius:10px;
+    transition:background .2s;flex-shrink:0;
+  }
+  .hamburger:hover{background:rgba(255,255,255,.06)}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--txt);border-radius:2px;transition:all .3s var(--ease)}
+  
+  .mobile-menu{
+    display:none;position:fixed;inset:0;
+    background:rgba(5,7,13,.97);backdrop-filter:blur(20px);
+    z-index:800;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  }
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{
+    color:rgba(240,244,250,.8);text-decoration:none;font-size:1.4rem;font-weight:600;
+    padding:14px 40px;border-radius:14px;transition:background .2s,color .2s;
+  }
+  .mobile-menu a:hover{background:rgba(255,255,255,.06);color:var(--txt)}
+  .mobile-close{
+    position:absolute;top:24px;left:24px;
+    width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.08);border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--txt);font-size:1.4rem;transition:background .2s;
+  }
+  .mobile-close:hover{background:rgba(255,255,255,.15)}
+
+  /* ── HERO TEXT STYLING FOR SUBPAGES ── */
+  .hero-h1{
+    font-weight:900;line-height:1.15;
+    letter-spacing:-.02em;
+    opacity:0;transform:translateY(20px);
+  }
+  .hero-h1 .shiny{
+    display:inline-block;
+    background:linear-gradient(
+      100deg,
+      var(--blue) 0%,
+      #8ac4ff 25%,
+      #fff 50%,
+      #8ac4ff 75%,
+      var(--blue) 100%
+    );
+    background-size:300% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:shine 3.5s linear infinite;
+  }
+  @keyframes shine{0%{background-position:200% center}100%{background-position:-200% center}}
+  
+  .hero-sub{
+    color:rgba(240,244,250,.72);
+    line-height:1.75;
+    opacity:0;transform:translateY(16px);
+  }
+
+  /* ── SECTION COMMONS ── */
+  section{position:relative;z-index:1;padding:110px 32px}
+  .sec-inner{max-width:1140px;margin:0 auto;width:100%}
+  .sec-header{text-align:center;margin-bottom:70px}
+  .tag{
+    display:inline-block;
+    background:rgba(60,140,255,.09);border:1px solid rgba(60,140,255,.18);
+    color:var(--blue2);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    padding:5px 14px;border-radius:999px;margin-bottom:16px;
+    opacity:0;transform:translateY(16px);
+  }
+
+  /* REVEAL */
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+
+  /* GLASS CARD */
+  .gc{
+    background:var(--glass);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    transition:border-color .35s,transform .35s var(--ease),box-shadow .35s;
+  }
+  .gc:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+
+  /* ICON BOX */
+  .icon-box{
+    width:46px;height:46px;border-radius:12px;
+    background:rgba(60,140,255,.1);border:1px solid rgba(60,140,255,.18);
+    display:flex;align-items:center;justify-content:center;color:var(--blue2);flex-shrink:0;
+  }
+
+  .divider{width:100%;height:1px;background:linear-gradient(to left,transparent,var(--border2),transparent);margin:0 auto}
+
+  .btn-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--blue);color:#fff;
+    padding:11px 24px;border-radius:999px;
+    font-size:.88rem;font-weight:700;text-decoration:none;
+    box-shadow:0 4px 28px rgba(60,140,255,.3);
+    transition:transform .3s var(--ease),box-shadow .3s;
+    width: fit-content;
+  }
+  .btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(60,140,255,.48)}
+  .btn-cta svg{transition:transform .3s var(--ease)}
+  .btn-cta:hover svg{transform:translateX(-4px)}
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     FOOTER
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  footer{
+    background:var(--s1);
+    border-top:1px solid var(--border);
+    padding:36px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:16px;position:relative;z-index:1;
+  }
+  .foot-logo img{height:36px}
+  .foot-copy{color:var(--subtle);font-size:.82rem}
+  .foot-up{color:var(--muted);font-size:.82rem;text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+  .foot-up:hover{color:var(--blue2)}
+  .foot-link{color:var(--subtle);font-size:.82rem;text-decoration:none;transition:color .2s}
+  .foot-link:hover{color:var(--blue2)}
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     WA FAB
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  .wa{
+    position:fixed;bottom:28px;left:28px;
+    width:54px;height:54px;border-radius:50%;
+    background:#25d366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 28px rgba(37,211,102,.38);
+    z-index:850;text-decoration:none;
+    opacity:0;transform:scale(.8);
+    transition:opacity .4s var(--ease),transform .4s var(--ease),box-shadow .3s;
+  }
+  .wa.in{opacity:1;transform:scale(1)}
+  .wa:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(37,211,102,.55)}
+  .wa svg{fill:#fff;width:26px;height:26px}
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     RESPONSIVE
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  @media(max-width:860px){
+    #nav{padding:8px 8px 8px 16px}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    footer{flex-direction:column;align-items:center;text-align:center}
+  }
+  @media(max-width:580px){
+    section{padding:80px 20px}
+    .wa{bottom:20px;left:20px;width:48px;height:48px}
+  }
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<div id="cursor-glow"></div>
+
+<!-- WhatsApp -->
+<a href="https://wa.me/972584846272" target="_blank" rel="noopener" class="wa" id="waBtn" aria-label="WhatsApp">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="סגור">✕</button>
+  <a href="index.html#landing" onclick="closeMenu()">דף נחיתה</a>
+  <a href="index.html#services" onclick="closeMenu()">מה מקבלים</a>
+  <a href="index.html#compare" onclick="closeMenu()">מחיר</a>
+  <a href="index.html#portfolio" onclick="closeMenu()">עבודות</a>
+  <a href="index.html#contact" onclick="closeMenu()">צור קשר</a>
+  <a href="index.html#contact" onclick="closeMenu()" style="background:var(--blue);color:#fff;margin-top:8px;border-radius:999px">דבר איתנו</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="ניווט ראשי">
+  <a href="index.html" class="nav-logo" aria-label="AK STUDIO בית">
+    <img src="LOGO_SRC_PLACEHOLDER" alt="AK STUDIO"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#landing">דף נחיתה</a></li>
+    <li><a href="index.html#services">מה מקבלים</a></li>
+    <li><a href="index.html#compare">מחיר</a></li>
+    <li><a href="index.html#portfolio">עבודות</a></li>
+    <li><a href="index.html#contact">צור קשר</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">דבר איתנו</a>
+  <div class="hamburger" id="hamburger" role="button" aria-label="פתח תפריט" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ── AMBIENT GLOWS ── -->
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<!-- ══════ TERMS OF USE CONTENT ══════ -->
+<section id="terms-content" style="padding-top: 160px; padding-bottom: 120px;">
+  <div class="sec-inner" style="max-width: 800px;">
+    <!-- Page Header -->
+    <div class="sec-header rv" style="text-align: center; margin-bottom: 60px;">
+      <div class="tag" id="tagEl">תנאי שימוש</div>
+      <h1 class="hero-h1" id="titleEl" style="font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 24px;">
+        <span class="shiny">הסכם ותנאי שימוש באתר.</span>
+      </h1>
+      <p class="hero-sub" id="subEl" style="margin: 0 auto; max-width: 600px; color: var(--muted); font-size: 1.05rem;">
+        ברוכים הבאים לאתר AK Studio. שימוש באתר מהווה הסכמה לתנאים המפורטים להלן.
+      </p>
+    </div>
+
+    <!-- Elegant Cards -->
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <!-- Section 1 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">שימוש באתר</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem;">
+          <p>השימוש באתר נועד לצפייה במידע על השירותים שלנו וליצירת קשר בלבד.</p>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">אחריות</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem;">
+          <p>המידע באתר מוצג כפי שהוא (AS IS). אנו עושים מאמצים לשמור על דיוק, אך ייתכנו טעויות או שינויים.</p>
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">שירותים</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem;">
+          <p>AK Studio מספקת שירותי בניית דפי נחיתה ועיצוב אתרים. כל הזמנה תתבצע בתיאום והסכמה מראש.</p>
+        </div>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">קניין רוחני</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem;">
+          <p>כל התכנים באתר, כולל עיצוב, טקסטים וקוד, מוגנים ואינם ניתנים לשימוש ללא אישור.</p>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">שינויים באתר</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem;">
+          <p>אנו רשאים לעדכן או לשנות את האתר והתוכן בכל עת ללא הודעה מוקדמת.</p>
+        </div>
+      </div>
+
+      <!-- Section 6 -->
+      <div class="gc rv" style="padding: 36px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="icon-box">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">יצירת קשר</h3>
+        </div>
+        <div style="color: var(--muted); line-height: 1.85; font-size: 0.95rem; display: flex; flex-direction: column; gap: 20px;">
+          <p>לכל שאלה ניתן לפנות דרך טופס יצירת הקשר באתר.</p>
+          <a href="index.html#contact" class="btn-cta">
+            מעבר לצור קשר
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="foot-logo"><img src="LOGO_SRC_PLACEHOLDER" alt="AK STUDIO"/></div>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <a href="https://wa.me/972584846272" target="_blank" rel="noopener" class="foot-up" aria-label="WhatsApp" style="display:flex;align-items:center;gap:6px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <span class="foot-copy">AK STUDIO © 2026</span>
+    <span style="color:var(--border2);font-size:.82rem">•</span>
+    <a href="privacy.html" class="foot-link">מדיניות פרטיות</a>
+    <span style="color:var(--border2);font-size:.82rem">•</span>
+    <a href="terms.html" class="foot-link">תנאי שימוש</a>
+  </div>
+  <a href="index.html#hero" class="foot-up">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    חזרה למעלה
+  </a>
+</footer>
+
+<script>
+const LOGO = "logo.png";
+document.querySelectorAll('img[src="LOGO_SRC_PLACEHOLDER"]').forEach(i=>i.src=LOGO);
+
+// NAV
+const nav=document.getElementById('nav');
+const wa=document.getElementById('waBtn');
+window.addEventListener('load',()=>{
+  nav.classList.add('in');
+  setTimeout(()=>wa.classList.add('in'),800);
+});
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',scrollY>60);
+},{ passive:true });
+
+// HAMBURGER
+const hb=document.getElementById('hamburger');
+const mm=document.getElementById('mobileMenu');
+hb.addEventListener('click',()=>mm.classList.add('open'));
+hb.addEventListener('keydown',e=>{if(e.key==='Enter')mm.classList.add('open')});
+document.getElementById('mobileClose').addEventListener('click',()=>mm.classList.remove('open'));
+function closeMenu(){mm.classList.remove('open')}
+
+// HEADER ANIMATION STAGGER
+setTimeout(()=>{
+  const tag = document.getElementById('tagEl');
+  if(tag) {
+    tag.style.transition='opacity .8s cubic-bezier(0.22,1,0.36,1),transform .8s cubic-bezier(0.22,1,0.36,1)';
+    tag.style.opacity='1';
+    tag.style.transform='none';
+  }
+}, 200);
+
+setTimeout(()=>{
+  const title = document.getElementById('titleEl');
+  if(title) {
+    title.style.transition='opacity .8s cubic-bezier(0.22,1,0.36,1),transform .8s cubic-bezier(0.22,1,0.36,1)';
+    title.style.opacity='1';
+    title.style.transform='none';
+  }
+}, 350);
+
+setTimeout(()=>{
+  const sub = document.getElementById('subEl');
+  if(sub) {
+    sub.style.transition='opacity .8s cubic-bezier(0.22,1,0.36,1),transform .8s cubic-bezier(0.22,1,0.36,1)';
+    sub.style.opacity='1';
+    sub.style.transform='none';
+  }
+}, 500);
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}
+  });
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// SCROLL PROGRESS BAR
+const prog=document.getElementById('scroll-progress');
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement;
+  const pct=s.scrollTop/(s.scrollHeight-s.clientHeight);
+  prog.style.transform=`scaleX(${pct})`;
+},{passive:true});
+
+// CURSOR GLOW
+const cg=document.getElementById('cursor-glow');
+document.addEventListener('mousemove',e=>{
+  cg.style.left=e.clientX+'px';
+  cg.style.top=e.clientY+'px';
+  cg.style.opacity='1';
+});
+document.addEventListener('mouseleave',()=>cg.style.opacity='0');
+</script>
+</body>
+</html>
