@@ -1421,6 +1421,48 @@ footer{
   0%   { opacity:1;   filter:drop-shadow(0 0 3px rgba(37,99,235,.5)); }
   100% { opacity:.75; filter:drop-shadow(0 0 8px rgba(37,99,235,.9)); }
 }
+/* ── PROCESS LAUNCH CTA BUTTON ── */
+.proc-launch-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:28px;
+  padding:13px 26px;
+  background:var(--blue);
+  color:#fff;
+  font-size:.9rem;
+  font-weight:700;
+  text-decoration:none;
+  border-radius:999px;
+  box-shadow:0 4px 28px rgba(60,140,255,.35);
+  transition:transform .3s var(--ease),box-shadow .3s,opacity .2s;
+  animation:pulse-btn 2.8s ease-in-out infinite;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.proc-launch-btn::after{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;right:-45%;
+  width:38%;
+  background:linear-gradient(115deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.4) 50%,rgba(255,255,255,0) 100%);
+  transform:skewX(-22deg);
+  animation:btn-sweep 2.8s ease-in-out infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+.proc-launch-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(60,140,255,.55);
+  animation:none;
+  opacity:.95;
+}
+.proc-launch-btn svg{
+  transition:transform .3s var(--ease);
+  flex-shrink:0;
+}
+.proc-launch-btn:hover svg{transform:translateX(-4px)}
 </style>
 </head>
 <body>
@@ -1784,6 +1826,10 @@ footer{
           <span class="process-step-kicker">Launch & Optimization</span>
           <h3 class="proc-label">עלייה לאוויר</h3>
           <p class="proc-desc">שינויים ותיקונים אחרונים ואז עולים לאוויר — האתר שלכם חי ומוכן לפעולה.</p>
+          <a href="#contact" class="proc-launch-btn">
+            רוצה לעלות לאוויר? דבר איתנו
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </a>
         </article>
       </div>
     </div>
