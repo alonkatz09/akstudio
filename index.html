@@ -419,6 +419,38 @@ section{position:relative;z-index:1;padding:110px 32px}
   text-align:left;
   font-variant-numeric:tabular-nums;
 }
+/* original strikethrough price */
+.cmp-original-price{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-size:1.1rem;
+  font-weight:600;
+  color:var(--muted);
+  margin-bottom:4px;
+  position:relative;
+  width:fit-content;
+}
+.cmp-original-price::after{
+  content:'';
+  position:absolute;
+  left:0; right:0;
+  top:50%;
+  height:1.5px;
+  background:rgba(248,113,113,.75);
+  transform:translateY(-50%) rotate(-6deg);
+  border-radius:2px;
+}
+.cmp-original-label{
+  font-size:.72rem;
+  font-weight:500;
+  color:rgba(248,113,113,.8);
+  letter-spacing:.04em;
+  margin-right:6px;
+  align-self:center;
+}
 .cmp-psub{font-size:.82rem;color:var(--muted);margin-bottom:28px}
 .cmp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
 .cmp-list li{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:var(--muted);line-height:1.5}
@@ -1528,8 +1560,8 @@ footer{
             <circle cx="80" cy="80" r="0" class="impact-flash-circle"/>
           </svg>
         </div>
-        <h3>קליעה מדויקת לקהל היעד שלך</h3>
-        <p>אנחנו לא מהמרים על תשומת הלב של הלקוח שלך. מהשנייה הראשונה שהוא נוחת בדף, כל כותרת, תמונה וכפתור עובדים יחד כמו חץ שנורה למטרה, כדי להפוך אותו ללקוח משלם. בלי התלבטויות, בלי תירוצים.</p>
+        <h3>מיקוד מקסימלי = תוצאות מקסימליות</h3>
+        <p>אנחנו לא מפזרים את תשומת הלב של הלקוח. כל כותרת, כל אזור וכל כפתור בדף מכוונים אותו לצעד אחד ברור: להשאיר פרטים, להתקשר או לקנות.</p>
       </div>
       <div class="land-text rv" style="transition-delay:.12s">
         <span class="kicker">ממוקד. ברור. מוכר.</span>
@@ -1614,7 +1646,7 @@ footer{
       <div class="gc cmp-card dim rv">
         <div class="cmp-title">סטודיואים אחרים</div>
         <ul class="cmp-list">
-          <li><svg class="ico-x" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>₪1,800 = ₪3,000 לפיתוח</li>
+          <li><svg class="ico-x" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span style="font-size:1.32em;font-weight:700">₪1,800 – ₪3,000 לפיתוח</span></li>
           <li><svg class="ico-x" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>תחזוקה יקרה ומתמשכת</li>
           <li><svg class="ico-x" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>זמני אספקה ארוכים</li>
           <li><svg class="ico-x" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>תוספות תשלום על מיתוג ועיצוב</li>
@@ -1624,6 +1656,10 @@ footer{
       <div class="gc cmp-card cmp-feat rv" style="transition-delay:.1s">
         <div class="cmp-badge">AK STUDIO</div>
         <div class="cmp-title">פתרון חד, יוקרתי ויעיל</div>
+        <div class="cmp-original-price">
+          <span class="cmp-original-label">מחיר רגיל</span>
+          <span>₪</span><span>699</span>
+        </div>
         <div class="cmp-price"><span class="cmp-currency">₪</span><span class="cmp-price-value" id="cmpPriceValue" data-target="449">449</span></div>
         <div class="cmp-psub">תשלום חד פעמי</div>
         <ul class="cmp-list">
@@ -2179,15 +2215,23 @@ if(cmpPriceValue){
       return;
     }
 
-    const duration=1200;
-    const easeOutCubic=t=>1-Math.pow(1-t,3);
+    const duration=2200;
+    // easeOutQuint — very smooth deceleration, feels like a gentle landing
+    const ease=t=>1-Math.pow(1-t,5);
     const start=performance.now();
+    let lastDisplayed=-1;
 
     const tick=now=>{
-      const progress=Math.min(1,(now-start)/duration);
-      const value=Math.round(targetPrice*easeOutCubic(progress));
-      cmpPriceValue.textContent=String(value);
-      if(progress<1){
+      const raw=Math.min(1,(now-start)/duration);
+      const progress=ease(raw);
+      const exact=targetPrice*progress;
+      // only update DOM when the displayed integer actually changes
+      const display=Math.floor(exact);
+      if(display!==lastDisplayed){
+        cmpPriceValue.textContent=String(display);
+        lastDisplayed=display;
+      }
+      if(raw<1){
         requestAnimationFrame(tick);
       }else{
         cmpPriceValue.textContent=String(targetPrice);
