@@ -346,13 +346,38 @@ section{position:relative;z-index:1;padding:110px 32px}
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SECTION 3 — SERVICES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-#services .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.srv-card{padding:36px 30px;transition:border-color .35s,transform .35s var(--ease),box-shadow .35s;transform-style:preserve-3d;will-change:transform}
+#services .grid4{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:24px;
+}
+.srv-card{
+  padding:42px 34px;
+  min-height:230px;
+  display:flex;
+  flex-direction:column;
+  transition:border-color .35s,transform .35s var(--ease),box-shadow .35s;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
 .srv-card:hover{border-color:rgba(60,140,255,.35);transform:translateY(-4px);box-shadow:0 0 40px rgba(60,140,255,.15),0 20px 50px rgba(60,140,255,.1)}
 .srv-card:hover .icon-box{background:rgba(60,140,255,.18);border-color:rgba(60,140,255,.35)}
-.srv-card .icon-box{margin-bottom:22px;transition:background .35s,border-color .35s}
-.srv-card h3{font-size:1.05rem;font-weight:700;margin-bottom:10px}
-.srv-card p{color:var(--muted);font-size:.9rem;line-height:1.75}
+.srv-card .icon-box{
+  width:52px;
+  height:52px;
+  margin-bottom:24px;
+  transition:background .35s,border-color .35s;
+}
+.srv-card h3{font-size:1.14rem;font-weight:700;margin-bottom:12px;line-height:1.35}
+.srv-card p{color:var(--muted);font-size:.95rem;line-height:1.8;flex:1}
+@media(max-width:1100px){
+  #services .grid4{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .srv-card{min-height:210px;padding:38px 30px}
+}
+@media(max-width:580px){
+  #services .grid4{grid-template-columns:1fr}
+  .srv-card{min-height:0}
+}
 
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1421,6 +1446,161 @@ footer{
   0%   { opacity:1;   filter:drop-shadow(0 0 3px rgba(37,99,235,.5)); }
   100% { opacity:.75; filter:drop-shadow(0 0 8px rgba(37,99,235,.9)); }
 }
+/* ── PROCESS LAUNCH CTA BUTTON ── */
+.proc-launch-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:28px;
+  padding:13px 26px;
+  background:var(--blue);
+  color:#fff;
+  font-size:.9rem;
+  font-weight:700;
+  text-decoration:none;
+  border-radius:999px;
+  box-shadow:0 4px 28px rgba(60,140,255,.35);
+  transition:transform .3s var(--ease),box-shadow .3s,opacity .2s;
+  animation:pulse-btn 2.8s ease-in-out infinite;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.proc-launch-btn::after{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;right:-45%;
+  width:38%;
+  background:linear-gradient(115deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.4) 50%,rgba(255,255,255,0) 100%);
+  transform:skewX(-22deg);
+  animation:btn-sweep 2.8s ease-in-out infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+.proc-launch-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(60,140,255,.55);
+  animation:none;
+  opacity:.95;
+}
+.proc-launch-btn svg{
+  transition:transform .3s var(--ease);
+  flex-shrink:0;
+}
+.proc-launch-btn:hover svg{transform:translateX(-4px)}
+/* ── GUARANTEE BANNER ── */
+#guarantee{ padding: 0 32px; }
+
+.guarantee-banner{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 36px 44px;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(ellipse at 90% 50%, rgba(60,140,255,.07) 0%, transparent 55%),
+    var(--glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(60,140,255,.28);
+  box-shadow:
+    0 0 0 1px rgba(60,140,255,.08),
+    0 24px 60px rgba(0,0,0,.4),
+    0 0 80px rgba(60,140,255,.06);
+  overflow: hidden;
+  animation: gb-pulse 3s ease-in-out infinite;
+}
+@keyframes gb-pulse{
+  0%,100%{ box-shadow: 0 0 0 1px rgba(60,140,255,.08), 0 24px 60px rgba(0,0,0,.4), 0 0 80px rgba(60,140,255,.06); }
+  50%    { box-shadow: 0 0 0 3px rgba(60,140,255,.14), 0 24px 60px rgba(0,0,0,.4), 0 0 100px rgba(60,140,255,.12); }
+}
+
+/* ambient corner dots */
+.gb-dot{
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+}
+.gb-dot-1{
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(60,140,255,.09), transparent 70%);
+  top: -80px; right: -60px;
+}
+.gb-dot-2{
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(91,163,255,.07), transparent 70%);
+  bottom: -60px; left: 80px;
+}
+.gb-title{
+  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 15px;
+
+  transform: translateY(-8px);
+}
+/* shield icon box */
+.gb-icon{
+  flex-shrink: 0;
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  background: rgba(60,140,255,.1);
+  border: 1px solid rgba(60,140,255,.28);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue2);
+  box-shadow: 0 0 28px rgba(60,140,255,.18), inset 0 0 16px rgba(60,140,255,.06);
+  transition: transform .3s var(--ease), box-shadow .3s;
+}
+.guarantee-banner:hover .gb-icon{
+  transform: scale(1.07);
+  box-shadow: 0 0 40px rgba(60,140,255,.32), inset 0 0 20px rgba(60,140,255,.1);
+}
+
+.gb-body{ flex: 1; }
+
+.gb-tag{
+  display: inline-block;
+  background: rgba(60,140,255,.09);
+  border: 1px solid rgba(60,140,255,.18);
+  color: var(--blue2);
+  font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 999px;
+  margin-bottom: 12px;
+}
+.ד{
+  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 10px;
+
+  transform: translateY(-12px);
+}
+.gb-accent{
+  background: linear-gradient(90deg, var(--blue2), #93c5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gb-desc{
+  color: var(--muted);
+  font-size: .9rem; line-height: 1.75;
+  max-width: 680px;
+}
+
+@media(max-width: 640px){
+  #guarantee{ padding: 0 20px; }
+  .guarantee-banner{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 24px;
+    text-align: right;
+  }
+}
 </style>
 </head>
 <body>
@@ -1560,8 +1740,8 @@ footer{
             <circle cx="80" cy="80" r="0" class="impact-flash-circle"/>
           </svg>
         </div>
-        <h3>קליעה מדויקת לקהל היעד שלך</h3>
-        <p>אנחנו לא מהמרים על תשומת הלב של הלקוח שלך. מהשנייה הראשונה שהוא נוחת בדף, כל כותרת, תמונה וכפתור עובדים יחד כמו חץ שנורה למטרה, כדי להפוך אותו ללקוח משלם. בלי התלבטויות, בלי תירוצים.</p>
+        <h3>מיקוד מקסימלי = תוצאות מקסימליות</h3>
+        <p>אנחנו לא מפזרים את תשומת הלב של הלקוח. כל כותרת, כל אזור וכל כפתור בדף מכוונים אותו לצעד אחד ברור: להשאיר פרטים, להתקשר או לקנות.</p>
       </div>
       <div class="land-text rv" style="transition-delay:.12s">
         <span class="kicker">ממוקד. ברור. מוכר.</span>
@@ -1681,6 +1861,32 @@ footer{
 </section>
 
 <div class="divider"></div>
+
+<!-- ══════ GUARANTEE BANNER ══════ -->
+<section id="guarantee" aria-label="גרנטי">
+  <div class="sec-inner">
+    <div class="guarantee-banner rv">
+      <!-- ambient dots -->
+      <div class="gb-dot gb-dot-1"></div>
+      <div class="gb-dot gb-dot-2"></div>
+      <!-- icon -->
+      <div class="gb-icon">
+        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <!-- text -->
+      <div class="gb-body">
+        <div class="gb-tag">ואם אני לא אוהב את התוצאה?</div>
+   <h1 class="gb-title">לא אהבת? <span class="gb-accent">לא שילמת.</span></h>
+        <p class="gb-desc">תוך שבוע מההצגה הראשונה, אם לא מרוצה מהכיוון, מהעיצוב, או מאיכות הביצוע — אתה מקבל החזר מלא של 100% מהמקדמה. בלי שאלות. בלי תירוצים. הסיכון אצלי, לא אצלך.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
 <section id="process" data-active="1">
   <div class="sec-inner">
     <div class="sec-header rv">
@@ -1784,6 +1990,10 @@ footer{
           <span class="process-step-kicker">Launch & Optimization</span>
           <h3 class="proc-label">עלייה לאוויר</h3>
           <p class="proc-desc">שינויים ותיקונים אחרונים ואז עולים לאוויר — האתר שלכם חי ומוכן לפעולה.</p>
+          <a href="#contact" class="proc-launch-btn">
+            רוצה לעלות לאוויר? דבר איתנו
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </a>
         </article>
       </div>
     </div>
@@ -1844,6 +2054,10 @@ footer{
     </div>
     <div class="faq-wrap">
       <div class="faq-item rv">
+        <button class="faq-btn open" onclick="faq(this)"><span>למה לבחור דווקא ב AK STUDIO?</span><div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+        <div class="faq-ans open"><p>כי אנחנו לא מוכרים אתר — אנחנו מוכרים תוצאה. דף שעובד, מהיר, יוקרתי, ובתוך ימים.</p></div>
+      </div>
+      <div class="faq-item rv">
         <button class="faq-btn" onclick="faq(this)"><span>תוך כמה זמן האתר מוכן?</span><div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
         <div class="faq-ans"><p>ברוב המקרים האתר מוכן בתוך כמה ימים, בהתאם למורכבות ולמהירות קבלת החומרים.</p></div>
       </div>
@@ -1853,26 +2067,17 @@ footer{
       </div>
       <div class="faq-item rv" style="transition-delay:.12s">
         <button class="faq-btn" onclick="faq(this)"><span>מה כולל המחיר של הדומיין?</span><div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
-        <div class="faq-ans"><p>הדומיין הוא הכתובת של האתר שלכם. העלות משתנה לפי הסיומת והספק, ובדרך כלל נעה בין ₪20 ל־₪90 לשנה ומשולמת ישירות לחברת האחסון, ללא תיווך או עמלות נוספות מצדנו.</p></div>
+        <div class="faq-ans"><p>הדומיין הוא הכתובת של האתר שלכם. העלות משתנה לפי הסיומת והספק, ובדרך כלל נעה בין ₪20 ל־₪90 לשנה.</p></div>
       </div>
       <div class="faq-item rv" style="transition-delay:.18s">
         <button class="faq-btn" onclick="faq(this)"><span>האתר יעבוד טוב גם בטלפון?</span><div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
         <div class="faq-ans"><p>כן. כל אתר נבנה רספונסיבי ומותאם למובייל, טאבלט ודסקטופ.</p></div>
       </div>
       <div class="faq-item rv">
-  <button class="faq-btn" onclick="faq(this)">
-    <span>האם אני מתחייב לתשלום כלשהו באמצע התהליך?</span>
-    <div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-  </button>
-  <div class="faq-ans">
-    <p>בכלל לא. המודל שלנו מבוסס על אמון מלא: התשלום מתבצע רק בסיום התהליך, ברגע שהאתר מוכן לחלוטין ועולה לאוויר באופן רשמי. אתם משלמים רק על תוצאה שאתם שלמים איתה.</p>
-  </div>
-</div>
-<div class="faq-item rv">
-  <button class="faq-btn" onclick="faq(this)">
-    <span>האם יש תשלום חודשי קבוע ל-AK STUDIO לאחר בניית האתר?</span>
-    <div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-  </button>
+      <div class="faq-item rv">
+        <button class="faq-btn" onclick="faq(this)">
+        <span>האם יש תשלום חודשי קבוע ל-AK STUDIO לאחר בניית האתר?</span>
+      <div class="faq-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
   <div class="faq-ans">
     <p>בשום אופן לא. התשלום ל-AK STUDIO הוא חד-פעמי בלבד עבור העיצוב והקמת האתר. אין לנו שום דמי מנוי, ריטיינר או תשלום חודשי מתמשך. העלות היחידה שלכם בהמשך היא עלות הדומיין והאחסון (בין ₪20 ל-₪90 בשנה בלבד) שמשולמת ישירות לחברת האחסון, ללא תיווך או עמלות נוספות מצדנו.</p>
   </div>
