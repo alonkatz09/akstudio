@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.webp">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AK STUDIO | דפי נחיתה שמוכרים</title>
@@ -315,12 +315,22 @@ section{position:relative;z-index:1;padding:110px 32px}
 
 /* GLASS CARD */
 .gc{
-  background:var(--glass);
+  background: 
+    linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.82)) padding-box, 
+    radial-gradient(circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(91, 163, 255, 0.35) 0%, transparent 60%) border-box,
+    linear-gradient(var(--border), var(--border)) border-box;
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:var(--radius-lg);
-  transition:border-color .35s,transform .35s var(--ease),box-shadow .35s;
+  border:1px solid transparent;border-radius:var(--radius-lg);
+  transition:transform .35s var(--ease),box-shadow .35s;
 }
-.gc:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.gc:hover{
+  transform:translateY(-3px);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  background: 
+    linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.82)) padding-box, 
+    radial-gradient(circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(91, 163, 255, 0.45) 0%, transparent 60%) border-box,
+    linear-gradient(var(--border2), var(--border2)) border-box;
+}
 
 /* ICON BOX */
 .icon-box{
@@ -360,7 +370,14 @@ section{position:relative;z-index:1;padding:110px 32px}
   transform-style:preserve-3d;
   will-change:transform;
 }
-.srv-card:hover{border-color:rgba(60,140,255,.35);transform:translateY(-4px);box-shadow:0 0 40px rgba(60,140,255,.15),0 20px 50px rgba(60,140,255,.1)}
+.srv-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 40px rgba(60,140,255,.15),0 20px 50px rgba(60,140,255,.1);
+  background: 
+    linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.82)) padding-box, 
+    radial-gradient(circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(91, 163, 255, 0.5) 0%, transparent 60%) border-box,
+    linear-gradient(rgba(60, 140, 255, 0.35), rgba(60, 140, 255, 0.35)) border-box;
+}
 .srv-card:hover .icon-box{background:rgba(60,140,255,.18);border-color:rgba(60,140,255,.35)}
 .srv-card .icon-box{
   width:52px;
@@ -408,7 +425,10 @@ section{position:relative;z-index:1;padding:110px 32px}
 .cmp-card.dim:hover{opacity:.65}
 .cmp-card.dim .cmp-list li{text-decoration:line-through;text-decoration-color:rgba(255,80,80,.5)}
 .cmp-feat{
-  border-color:rgba(60,140,255,.3)!important;
+  background: 
+    linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.82)) padding-box, 
+    radial-gradient(circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(91, 163, 255, 0.45) 0%, transparent 60%) border-box,
+    linear-gradient(rgba(60, 140, 255, 0.3), rgba(60, 140, 255, 0.3)) border-box !important;
   box-shadow:0 0 0 1px rgba(60,140,255,.12),0 20px 60px rgba(60,140,255,.1);
   position:relative;
   animation:pulse-ring 2.8s ease-in-out infinite;
@@ -2740,7 +2760,7 @@ footer{
       <!-- text -->
       <div class="gb-body">
         <div class="gb-tag">ואם אני לא אוהב את התוצאה?</div>
-   <h1 class="gb-title">לא אהבת? <span class="gb-accent">לא שילמת.</span></h>
+   <h2 class="gb-title">לא אהבת? <span class="gb-accent">לא שילמת.</span></h2>
         <p class="gb-desc">אם עד שבוע אחרי העלייה לאוויר לא תהיו מרוצים מהתוצאה – תקבלו 100% מעלות ההקמה בחזרה. בלי שאלות, בלי תירוצים.</p>
       </div>
     </div>
@@ -2952,7 +2972,7 @@ footer{
     </div>
     <div class="port-grid">
       <a href="https://alondogisiter.vercel.app/" target="_blank" rel="noopener" class="port-card rv" style="transition-delay:.05s">
-        <img src="webpicture/alondogisiter.png" alt="Alon Dog Isiter">
+        <img src="webpicture/alondogisiter.webp" alt="Alon Dog Isiter">
         <div class="port-overlay">
           <div class="port-overlay-name">Alon Dog Sitter</div>
           <div class="port-overlay-btn">
@@ -2963,7 +2983,7 @@ footer{
       </a>
       
       <a href="https://ronifitness.vercel.app/" target="_blank" rel="noopener" class="port-card rv" style="transition-delay:.15s">
-        <img src="webpicture/ronifitness.png" alt="Roni Fitness">
+        <img src="webpicture/ronifitness.webp" alt="Roni Fitness">
         <div class="port-overlay">
           <div class="port-overlay-name">Roni Fitness</div>
           <div class="port-overlay-btn">
@@ -2973,7 +2993,7 @@ footer{
         </div>
       </a>
       <a href="https://italkiana.vercel.app/" target="_blank" rel="noopener" class="port-card rv" style="transition-delay:.1s">
-        <img src="webpicture/italkiana.png" alt="Italkiana">
+        <img src="webpicture/italkiana.webp" alt="Italkiana">
         <div class="port-overlay">
           <div class="port-overlay-name">Italkiana</div>
           <div class="port-overlay-btn">
@@ -3090,7 +3110,7 @@ footer{
 </footer>
 
 <script>
-const LOGO = "logo.png";
+const LOGO = "logo.webp";
 document.querySelectorAll('img[src="LOGO_SRC_PLACEHOLDER"]').forEach(i=>i.src=LOGO);
 
 // NAV
@@ -3472,25 +3492,43 @@ window.addEventListener('scroll',()=>{
   prog.style.transform=`scaleX(${pct})`;
 },{passive:true});
 
-// CURSOR GLOW
+// CURSOR GLOW (Disabled on touch/mobile devices for performance)
 const cg=document.getElementById('cursor-glow');
-document.addEventListener('mousemove',e=>{
-  cg.style.left=e.clientX+'px';
-  cg.style.top=e.clientY+'px';
-  cg.style.opacity='1';
-});
-document.addEventListener('mouseleave',()=>cg.style.opacity='0');
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+if (cg && !isTouchDevice) {
+  document.addEventListener('mousemove',e=>{
+    cg.style.left=e.clientX+'px';
+    cg.style.top=e.clientY+'px';
+    cg.style.opacity='1';
+  });
+  document.addEventListener('mouseleave',()=>cg.style.opacity='0');
+}
 
-// CARD TILT
-document.querySelectorAll('.srv-card').forEach(card=>{
+// CARD GLOW & TILT EFFECTS
+document.querySelectorAll('.gc').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width-.5)*10;
-    const y=((e.clientY-r.top)/r.height-.5)*-10;
-    card.style.transform=`translateY(-4px) rotateY(${x}deg) rotateX(${y}deg)`;
+    
+    // Gradient border glow tracking
+    const mx=e.clientX-r.left;
+    const my=e.clientY-r.top;
+    card.style.setProperty('--mouse-x',mx+'px');
+    card.style.setProperty('--mouse-y',my+'px');
+    
+    // Tilt (Restricted to .srv-card only for layout hierarchy)
+    if(card.classList.contains('srv-card')){
+      const x=((e.clientX-r.left)/r.width-.5)*10;
+      const y=((e.clientY-r.top)/r.height-.5)*-10;
+      card.style.transform=`translateY(-4px) rotateY(${x}deg) rotateX(${y}deg)`;
+    }
   });
+  
   card.addEventListener('mouseleave',()=>{
-    card.style.transform='';
+    card.style.removeProperty('--mouse-x');
+    card.style.removeProperty('--mouse-y');
+    if(card.classList.contains('srv-card')){
+      card.style.transform='';
+    }
   });
 });
 
