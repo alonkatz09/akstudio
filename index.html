@@ -1668,7 +1668,7 @@ footer{
 @media(max-width:768px){
   #process{
     padding:80px 20px;
-    overflow:visible;
+    overflow:hidden;
   }
   #process .sec-inner{
     max-width:100%;
@@ -1683,21 +1683,17 @@ footer{
     max-width:none;
   }
   #process .process-scroll-grid{
-    display:flex!important;
-    flex-direction:column!important;
+    display:block!important;
     direction:rtl;
     width:100%;
   }
   .process-visual-col{
-    display:block!important;
-    position:sticky!important;
-    top:60px!important;
-    width:100%!important;
-    height:42vh!important;
-    min-height:280px!important;
-    max-height:380px!important;
-    z-index:100!important;
-    margin-bottom:20px;
+    display:none!important;
+    position:relative!important;
+    top:0!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
   }
   .process-copy{
     display:block!important;
@@ -1705,20 +1701,40 @@ footer{
     grid-column:auto;
     text-align:right;
   }
+  #process * {
+    animation: none !important;
+    transition: none !important;
+  }
   .proc-step{
     width:100%;
     max-width:none;
-    min-height:55vh!important;
-    padding:10vh 0 15vh!important;
+    min-height:0!important;
+    padding:24px 0;
+    margin:0 0 16px 0;
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    border-bottom:none;
+    background:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    border:none!important;
+    box-shadow:none!important;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .proc-step:last-child{
+    margin-bottom:0;
   }
   .proc-num-wrap{
-    margin-bottom:16px;
-    padding:7px 12px;
+    margin-bottom:12px;
+    padding:6px 12px;
   }
   .proc-label{
     font-size:clamp(1.45rem,7.2vw,2.05rem);
     line-height:1.18;
-    margin-bottom:14px;
+    margin-bottom:10px;
   }
   .proc-desc{
     max-width:none;
@@ -1727,7 +1743,7 @@ footer{
   }
   .process-step-kicker{
     font-size:.72rem;
-    margin-bottom:8px;
+    margin-bottom:6px;
   }
   .process-mobile-visual{
     display:none!important;
@@ -3130,7 +3146,7 @@ if(processSection){
   const scoreNumber=document.getElementById('scoreNumber');
   const clamp=(value,min=0,max=1)=>Math.min(Math.max(value,min),max);
   const easeOut=value=>1-Math.pow(1-value,3);
-  const isProcessMobile=()=>false;
+  const isProcessMobile=()=>window.matchMedia('(max-width: 768px)').matches;
   let processTicking=false;
   let codeChars=[];
   let codeCaret=null;
@@ -3281,7 +3297,7 @@ if(processSection){
       if(clonedScore) clonedScore.textContent='100';
       inner.appendChild(sceneClone);
       mobileStage.append(glow,inner);
-      step.after(mobileStage);
+      step.appendChild(mobileStage);
     });
     processSection.dataset.mobileVisualsReady='true';
   }
@@ -3294,15 +3310,7 @@ if(processSection){
     if(!processStage || !processSteps.length) return;
 
     if(isProcessMobile()){
-      processSection.dataset.active='1';
       processSteps.forEach(step=>step.classList.add('is-active'));
-      processStage.style.setProperty('--process-ring','100');
-      processStage.style.setProperty('--blueprint-progress','1');
-      processStage.style.setProperty('--mock-progress','1');
-      processStage.style.setProperty('--score-progress','1');
-      setBlueprintProgress(1);
-      setCodeProgress(1);
-      setScoreProgress(1);
       return;
     }
 
