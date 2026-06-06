@@ -2577,6 +2577,24 @@ footer{
   0%{transform:translateY(-10px) rotate(0deg);opacity:1}
   100%{transform:translateY(80px) rotate(360deg);opacity:0}
 }
+
+/* Desktop Hover Effect for Services Section */
+@media (min-width: 1024px) {
+  #services .srv-card {
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+  #services .srv-card:hover {
+    z-index: 10 !important;
+    box-shadow: 0 32px 70px rgba(0, 0, 0, 0.5), 0 0 40px rgba(60, 140, 255, 0.25) !important;
+  }
+  #services .srv-card:nth-child(odd):hover {
+    transform: scale(1.1) rotate(5deg) !important;
+  }
+  #services .srv-card:nth-child(even):hover {
+    transform: scale(1.1) rotate(-5deg) !important;
+  }
+}
 </style>
 </head>
 <body>
