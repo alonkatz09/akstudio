@@ -1846,12 +1846,13 @@ footer{
     box-sizing: border-box;
     transform-style: preserve-3d;
     backface-visibility: hidden;
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
 
     /* Apply dynamic properties from JS variables with high specificity */
-    transform: translate3d(0, var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
+    transform: translate3d(var(--tx, 0px), var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
     opacity: var(--op, 1) !important;
     z-index: var(--zi, 1) !important;
+    filter: blur(var(--b, 0px)) !important;
     transition: none !important;
   }
   #services .srv-card.rv {
@@ -1859,7 +1860,7 @@ footer{
     transition: none !important;
   }
   #services .srv-card:hover {
-    transform: translate3d(0, var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
+    transform: translate3d(var(--tx, 0px), var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
     box-shadow: 0 24px 60px rgba(0,0,0,.45);
   }
 }
@@ -3706,15 +3707,20 @@ document.querySelectorAll('.gc').forEach(card=>{
 
   const tilts = [-3, 3, -1.5, 1.5];
 
+  // Smoothstep function for organic ease-in-out transition of background cards
+  const smoothstep = x => x * x * (3 - 2 * x);
+
   function updateCardStack() {
     if (window.innerWidth > 768) {
       cards.forEach(card => {
+        card.style.removeProperty('--tx');
         card.style.removeProperty('--ty');
         card.style.removeProperty('--tz');
         card.style.removeProperty('--s');
         card.style.removeProperty('--r');
         card.style.removeProperty('--op');
         card.style.removeProperty('--zi');
+        card.style.removeProperty('--b');
       });
       return;
     }
@@ -3728,42 +3734,78 @@ document.querySelectorAll('.gc').forEach(card=>{
     p = Math.min(Math.max(p, 0), 1);
 
     const progressMultiplier = N - 1;
+    const linearStepProgress = p * progressMultiplier;
+    const currentStep = Math.floor(linearStepProgress);
+    const stepFraction = linearStepProgress - currentStep;
+    
+    // Eased step progress for smooth, organic background cards shifting
+    const easedStepProgress = currentStep + smoothstep(stepFraction);
 
     cards.forEach((card, i) => {
-      const relativeIndex = i - (p * progressMultiplier);
-
-      if (relativeIndex <= -1) {
-        card.style.setProperty('--ty', '-150%');
+      if (i < currentStep) {
+        // Fully flown away (alternate left/right drift)
+        const driftSide = (i % 2 === 0) ? 1 : -1;
+        card.style.setProperty('--tx', `${driftSide * 120}px`);
+        card.style.setProperty('--ty', '-160%');
         card.style.setProperty('--tz', '0px');
         card.style.setProperty('--s', '1');
         card.style.setProperty('--r', '0deg');
         card.style.setProperty('--op', '0');
         card.style.setProperty('--zi', '0');
-      } else if (relativeIndex < 0) {
-        const t = -relativeIndex;
-        const translateY = t * -150;
+        card.style.setProperty('--b', '0px');
+      } else if (i === currentStep && i < N - 1) {
+        // Active card flying away (using cubic ease-in for dramatic acceleration)
+        const t = stepFraction;
+        const easedT = t * t * t; // Starts slow, accelerates dramatically
+        const translateY = easedT * -160;
+        
+        // Alternating horizontal swipe drift
+        const driftSide = (i % 2 === 0) ? 1 : -1;
+        const translateX = easedT * driftSide * 100;
+        
+        // Accelerating fade-out
+        const opacity = Math.max(0, 1 - Math.pow(t, 2.5));
+        
         const initialTilt = tilts[i % tilts.length];
-        const rotate = (1 - t) * initialTilt;
+        const exitRotation = initialTilt * 4; // Outward rotation
+        const rotate = (1 - easedT) * initialTilt + easedT * exitRotation;
+
+        card.style.setProperty('--tx', `${translateX.toFixed(1)}px`);
         card.style.setProperty('--ty', `${translateY}%`);
         card.style.setProperty('--tz', '0px');
         card.style.setProperty('--s', '1');
-        card.style.setProperty('--r', `${rotate}deg`);
-        card.style.setProperty('--op', (1 - t).toFixed(3));
+        card.style.setProperty('--r', `${rotate.toFixed(2)}deg`);
+        card.style.setProperty('--op', opacity.toFixed(3));
         card.style.setProperty('--zi', String(10 + i));
+        card.style.setProperty('--b', '0px');
       } else {
-        const scale = 1 - relativeIndex * 0.05;
-        const translateY = relativeIndex * 14;
+        // In the stack (including the active last card)
+        const relativeIndex = i - easedStepProgress;
+        
+        // Non-linear exponential scale mapping (organic depth)
+        const scale = Math.pow(0.96, relativeIndex);
+        
+        // Non-linear vertical Y offset
+        const translateY = Math.pow(relativeIndex, 1.1) * 13;
+        
+        // Soft opacity layering
         const opacity = 1 - relativeIndex * 0.12;
+        
+        // Dynamic camera lens focus-pull blur
+        const blurVal = relativeIndex * 2; // 0px, 2px, 4px, 6px
+        
         const initialTilt = tilts[i % tilts.length];
         const zIndex = N - i;
-        const translateZ = -relativeIndex * 40;
+        const translateZ = -relativeIndex * 35; // 3D depth offset
 
+        card.style.setProperty('--tx', '0px');
         card.style.setProperty('--ty', `${translateY}px`);
         card.style.setProperty('--tz', `${translateZ}px`);
         card.style.setProperty('--s', scale.toFixed(3));
         card.style.setProperty('--r', `${initialTilt}deg`);
         card.style.setProperty('--op', opacity.toFixed(3));
         card.style.setProperty('--zi', String(zIndex));
+        card.style.setProperty('--b', `${blurVal.toFixed(1)}px`);
       }
     });
   }
