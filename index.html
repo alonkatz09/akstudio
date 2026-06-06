@@ -1686,6 +1686,9 @@ footer{
   #compare .cmp-grid{grid-template-columns:1fr;max-width:380px}
 }
 @media(max-width:768px){
+  #guarantee .gb-tag {
+    display: none !important;
+  }
   #process{
     padding:80px 20px;
     overflow:hidden;
@@ -2757,19 +2760,20 @@ footer{
       <h2>את כל מה שצריך כדי לצאת לאוויר בצורה נקייה, מקצועית ומשכנעת.</h2>
     </div>
     <div class="grid4">
-      <div class="gc srv-card rv" style="transition-delay:.05s">
-        <div class="icon-box">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <h3>מיתוג ועיצוב לוגו</h3>
-        <p>במידת הצורך, נחדד את הזהות הוויזואלית כך שהמותג ירגיש מקצועי, עקבי וזכיר.</p>
-      </div>
+      
       <div class="gc srv-card rv" style="transition-delay:.1s">
         <div class="icon-box">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
         </div>
         <h3>פיתוח ועיצוב האתר</h3>
         <p>עיצוב מותאם אישית, מבנה חכם וחוויית משתמש חלקה בכל גודל מסך.</p>
+      </div>
+      <div class="gc srv-card rv" style="transition-delay:.05s">
+        <div class="icon-box">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>מיתוג ועיצוב לוגו</h3>
+        <p>במידת הצורך, נחדד את הזהות הוויזואלית כך שהמותג ירגיש מקצועי, עקבי וזכיר.</p>
       </div>
       <div class="gc srv-card rv" style="transition-delay:.15s">
         <div class="icon-box">
@@ -2799,7 +2803,7 @@ footer{
          <img src="LOGO_SRC_PLACEHOLDER" alt="AK STUDIO"/>
       </div>
       <div class="about-text">
-        <span class="tag">הסטודיו</span>
+        
         <h2>נעים להכיר — AK STUDIO</h2>
         <p>AK STUDIO בונה אתרים ודפי נחיתה לעסקים שרוצים להיראות רציניים מהרגע הראשון. העבודה שלנו משלבת עיצוב מוקפד, חשיבה שיווקית וביצועים טכניים נקיים, כדי ליצור חוויה שמרגישה יוקרתית, עובדת מהר ומובילה את הלקוח לפעולה.</p>
       </div>
@@ -3809,8 +3813,8 @@ document.querySelectorAll('.gc').forEach(card=>{
         // Soft opacity layering
         const opacity = 1 - relativeIndex * 0.12;
         
-        // Dynamic camera lens focus-pull blur
-        const blurVal = relativeIndex * 2; // 0px, 2px, 4px, 6px
+        // Dynamic camera lens focus-pull blur (slower, softer transition with max ~2.4px intensity)
+        const blurVal = Math.pow(relativeIndex, 0.8) * 1.0;
         
         const initialTilt = tilts[i % tilts.length];
         const zIndex = N - i;
