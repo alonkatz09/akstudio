@@ -1725,48 +1725,142 @@ footer{
     animation: none !important;
     transition: none !important;
   }
-  .proc-step{
-    width:100%;
-    max-width:none;
-    min-height:0!important;
-    padding:24px 0;
-    margin:0 0 16px 0;
-    opacity:1!important;
-    transform:none!important;
-    filter:none!important;
-    border-bottom:none;
-    background:none!important;
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-    border:none!important;
-    box-shadow:none!important;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+  /* Process Timeline on Mobile */
+  #process .process-copy {
+    position: relative;
+    padding-right: 28px;
+    box-sizing: border-box;
   }
-  .proc-step:last-child{
-    margin-bottom:0;
+  .timeline-spine {
+    display: block;
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    right: 8px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+    z-index: 1;
   }
-  .proc-num-wrap{
-    margin-bottom:12px;
-    padding:6px 12px;
+  .timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--blue);
+    box-shadow: 0 0 8px var(--blue2), 0 0 16px rgba(60, 140, 255, 0.4);
+    border-radius: 999px;
+    transition: none !important;
   }
-  .proc-label{
-    font-size:clamp(1.45rem,7.2vw,2.05rem);
-    line-height:1.18;
-    margin-bottom:10px;
+  .proc-step {
+    width: 100%;
+    max-width: none;
+    min-height: 0 !important;
+    padding: 12px 0;
+    margin: 0 0 36px 0 !important;
+    border-bottom: none;
+    background: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    will-change: transform, opacity, filter;
+
+    /* Continuous scroll-driven styling mapped to JS variable */
+    opacity: calc(0.15 + (var(--step-progress, 0) * 0.85)) !important;
+    transform: translateY(calc((1 - var(--step-progress, 0)) * 24px)) !important;
+    filter: blur(calc((1 - var(--step-progress, 0)) * 3px)) !important;
+    transition: none !important;
   }
-  .proc-desc{
-    max-width:none;
-    font-size:1rem;
-    line-height:1.75;
+  .proc-step:last-child {
+    margin-bottom: 0 !important;
   }
-  .process-step-kicker{
-    font-size:.72rem;
-    margin-bottom:6px;
+  .proc-num-wrap {
+    display: none !important;
+  }
+  .process-step-kicker {
+    display: none !important;
+  }
+  .proc-label {
+    font-size: clamp(1.45rem, 7.2vw, 2.05rem);
+    line-height: 1.18;
+    margin-bottom: 10px;
+  }
+  .proc-desc {
+    max-width: none;
+    font-size: 1rem;
+    line-height: 1.75;
   }
   .process-mobile-visual{
     display:none!important;
+  }
+
+  /* Services 3D Card Stack on Mobile */
+  #services {
+    height: 280vh;
+    padding: 0;
+    position: relative;
+  }
+  #services .sec-inner {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 80px 20px 40px 20px;
+    max-width: 100%;
+    overflow: hidden;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+  #services .sec-header {
+    margin-bottom: 24px;
+    margin-top: 0;
+    text-align: center;
+  }
+  #services .grid4 {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    height: 330px;
+    margin: 0 auto;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+  #services .srv-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 280px;
+    margin: 0;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+
+    /* Apply dynamic properties from JS variables with high specificity */
+    transform: translate3d(0, var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
+    opacity: var(--op, 1) !important;
+    z-index: var(--zi, 1) !important;
+    transition: none !important;
+  }
+  #services .srv-card.rv {
+    /* Prevent scroll-reveal transition overrides */
+    transition: none !important;
+  }
+  #services .srv-card:hover {
+    transform: translate3d(0, var(--ty, 0px), var(--tz, 0px)) scale(var(--s, 1)) rotate(var(--r, 0deg)) !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
   }
 }
 @media(max-width:580px){
@@ -2932,6 +3026,10 @@ footer{
       </div>
 
       <div class="process-copy" id="processSteps">
+        <!-- Timeline Spine (visible only on mobile) -->
+        <div class="timeline-spine" aria-hidden="true">
+          <div class="timeline-progress"></div>
+        </div>
         <article class="proc-step is-active" data-step="0">
           <div class="proc-num-wrap"><span class="proc-num">01 / 04</span></div>
           <span class="process-step-kicker">Brand meeting</span>
@@ -3326,14 +3424,50 @@ if(processSection){
   buildCodeCompiler();
   buildMobileProcessVisuals();
 
+  function updateMobileProcess() {
+    if (!processSteps.length) return;
+    const viewportCenter = window.innerHeight * 0.5;
+    const maxDistance = window.innerHeight * 0.35; // sweet spot distance for decay
+
+    processSteps.forEach((step) => {
+      const rect = step.getBoundingClientRect();
+      const stepCenter = rect.top + rect.height * 0.5;
+      const distance = Math.abs(stepCenter - viewportCenter);
+      
+      // Calculate progress from 1 (at center) to 0 (at or beyond maxDistance)
+      let progress = 1 - (distance / maxDistance);
+      progress = Math.min(Math.max(progress, 0), 1);
+      
+      step.style.setProperty('--step-progress', progress.toFixed(3));
+    });
+
+    const progLine = processSection.querySelector('.timeline-progress');
+    if (progLine) {
+      const firstRect = processSteps[0].getBoundingClientRect();
+      const lastRect = processSteps[processSteps.length - 1].getBoundingClientRect();
+      const firstCenter = firstRect.top + 12;
+      const lastCenter = lastRect.bottom - 12;
+      const totalDistance = lastCenter - firstCenter;
+      const currentProgress = viewportCenter - firstCenter;
+      let pct = currentProgress / (totalDistance > 0 ? totalDistance : 1);
+      pct = Math.min(Math.max(pct, 0), 1);
+      progLine.style.height = `${pct * 100}%`;
+    }
+  }
+
   function updateProcessStage(){
     processTicking=false;
     if(!processStage || !processSteps.length) return;
 
     if(isProcessMobile()){
-      processSteps.forEach(step=>step.classList.add('is-active'));
+      updateMobileProcess();
       return;
     }
+
+    // Reset mobile custom properties when on desktop
+    processSteps.forEach(step => {
+      step.style.removeProperty('--step-progress');
+    });
 
     const viewportCenter=window.innerHeight*.5;
     let activeIndex=0;
@@ -3518,6 +3652,7 @@ document.querySelectorAll('.gc').forEach(card=>{
     
     // Tilt (Restricted to .srv-card only for layout hierarchy)
     if(card.classList.contains('srv-card')){
+      if(window.innerWidth <= 768) return; // Disable tilt on mobile to avoid conflicts
       const x=((e.clientX-r.left)/r.width-.5)*10;
       const y=((e.clientY-r.top)/r.height-.5)*-10;
       card.style.transform=`translateY(-4px) rotateY(${x}deg) rotateX(${y}deg)`;
@@ -3559,6 +3694,94 @@ document.querySelectorAll('.gc').forEach(card=>{
   }, { threshold: 0.35 });
 
   obs.observe(card);
+})();
+
+// ── SERVICES 3D CARD STACK FOR MOBILE ──
+(function() {
+  const servicesSection = document.getElementById('services');
+  if (!servicesSection) return;
+  const cards = Array.from(servicesSection.querySelectorAll('.srv-card'));
+  const N = cards.length;
+  if (N === 0) return;
+
+  const tilts = [-3, 3, -1.5, 1.5];
+
+  function updateCardStack() {
+    if (window.innerWidth > 768) {
+      cards.forEach(card => {
+        card.style.removeProperty('--ty');
+        card.style.removeProperty('--tz');
+        card.style.removeProperty('--s');
+        card.style.removeProperty('--r');
+        card.style.removeProperty('--op');
+        card.style.removeProperty('--zi');
+      });
+      return;
+    }
+
+    const rect = servicesSection.getBoundingClientRect();
+    const totalHeight = rect.height;
+    const viewHeight = window.innerHeight;
+    const scrollRange = totalHeight - viewHeight;
+
+    let p = -rect.top / (scrollRange > 0 ? scrollRange : 1);
+    p = Math.min(Math.max(p, 0), 1);
+
+    const progressMultiplier = N - 1;
+
+    cards.forEach((card, i) => {
+      const relativeIndex = i - (p * progressMultiplier);
+
+      if (relativeIndex <= -1) {
+        card.style.setProperty('--ty', '-150%');
+        card.style.setProperty('--tz', '0px');
+        card.style.setProperty('--s', '1');
+        card.style.setProperty('--r', '0deg');
+        card.style.setProperty('--op', '0');
+        card.style.setProperty('--zi', '0');
+      } else if (relativeIndex < 0) {
+        const t = -relativeIndex;
+        const translateY = t * -150;
+        const initialTilt = tilts[i % tilts.length];
+        const rotate = (1 - t) * initialTilt;
+        card.style.setProperty('--ty', `${translateY}%`);
+        card.style.setProperty('--tz', '0px');
+        card.style.setProperty('--s', '1');
+        card.style.setProperty('--r', `${rotate}deg`);
+        card.style.setProperty('--op', (1 - t).toFixed(3));
+        card.style.setProperty('--zi', String(10 + i));
+      } else {
+        const scale = 1 - relativeIndex * 0.05;
+        const translateY = relativeIndex * 14;
+        const opacity = 1 - relativeIndex * 0.12;
+        const initialTilt = tilts[i % tilts.length];
+        const zIndex = N - i;
+        const translateZ = -relativeIndex * 40;
+
+        card.style.setProperty('--ty', `${translateY}px`);
+        card.style.setProperty('--tz', `${translateZ}px`);
+        card.style.setProperty('--s', scale.toFixed(3));
+        card.style.setProperty('--r', `${initialTilt}deg`);
+        card.style.setProperty('--op', opacity.toFixed(3));
+        card.style.setProperty('--zi', String(zIndex));
+      }
+    });
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateCardStack();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateCardStack);
+  window.addEventListener('load', updateCardStack);
+  updateCardStack();
 })();
 </script>
 </body>
