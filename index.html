@@ -223,27 +223,14 @@ body::after{
 .hero-h1 .line1{display:block;color:#fff}
 .hero-h1 .shiny{
   display:inline-block;
-  background:linear-gradient(
-    100deg,
-    var(--blue) 0%,
-    #8ac4ff 25%,
-    #fff 50%,
-    #8ac4ff 75%,
-    var(--blue) 100%
-  );
-  background-size:300% auto;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shine 3.5s linear infinite;
+  color:var(--blue2);
 }
-@keyframes shine{0%{background-position:200% center}100%{background-position:-200% center}}
 .hero-sub{
   color:rgba(240,244,250,.72);
   font-size:clamp(.9rem,1.4vw,1.08rem);
   max-width:580px;line-height:1.75;
   margin-bottom:36px;
   opacity:0;transform:translateY(16px);
-  padding-right:16px;
-  border-right:2px solid rgba(60,140,255,.45);
 }
 .hero-btns{
   display:flex;gap:12px;flex-wrap:wrap;
@@ -1699,7 +1686,8 @@ section{position:relative;z-index:1;padding:110px 32px}
 .compare-cta-wrap{
   margin-top:34px;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
+  align-items:center;
 }
 .form-wrap{
   background:var(--glass2);backdrop-filter:blur(24px);
@@ -1773,14 +1761,17 @@ footer{
   .nav-links{display:none}
   .hamburger{display:flex}
   #landing .split,#about .about-card,#contact .con-grid{grid-template-columns:1fr}
-  #landing .land-text { order: -1; }
+  #landing .land-text { order: -1 !important; }
   #about .about-card{padding:36px;gap:32px;text-align:center}
   .about-logo{margin:0 auto}
   #compare .cmp-grid{grid-template-columns:1fr;max-width:380px}
 }
 @media(max-width:768px){
-  #guarantee .gb-tag {
-    display: none !important;
+  #landing .land-text {
+    order: -1 !important;
+  }
+  .hero-h1{
+    font-size:clamp(2rem,8.5vw,3.2rem);
   }
   #process{
     padding:80px 20px;
@@ -1964,7 +1955,7 @@ footer{
   section{padding:80px 20px}
   #hero .hero-content{padding:0 20px 40px; margin-top: 100px}
   .hero-eyebrow{display:none}
-  .hero-h1{font-size:clamp(2.6rem,11vw,3.5rem)}
+  .hero-h1{font-size:clamp(1.9rem,9.5vw,2.9rem)}
   #process{padding:76px 20px}
   .proc-step{align-items:flex-start;text-align:right}
   footer{flex-direction:column;align-items:center;text-align:center}
@@ -2121,117 +2112,106 @@ footer{
   flex-shrink:0;
 }
 .proc-launch-btn:hover svg{transform:translateX(-4px)}
-/* ── GUARANTEE BANNER ── */
-#guarantee{ padding: 0 32px; }
-
-.guarantee-banner{
+/* ── INTEGRATED COMPARE GUARANTEE BANNER ── */
+.compare-guarantee-banner {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 32px;
-  padding: 36px 44px;
-  border-radius: var(--radius-lg);
+  gap: 24px;
+  padding: 28px 40px;
+  margin: 36px auto 0;
+  max-width: 780px; /* Perfectly matches the compare grid above it */
+  width: 100%;
+  border-radius: var(--radius);
   background:
-    radial-gradient(ellipse at 90% 50%, rgba(60,140,255,.07) 0%, transparent 55%),
-    var(--glass);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(60,140,255,.28);
+    radial-gradient(ellipse at 90% 50%, rgba(60,140,255,.05) 0%, transparent 60%),
+    rgba(13, 17, 23, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(60, 140, 255, 0.15);
   box-shadow:
-    0 0 0 1px rgba(60,140,255,.08),
-    0 24px 60px rgba(0,0,0,.4),
-    0 0 80px rgba(60,140,255,.06);
+    0 0 0 1px rgba(60, 140, 255, 0.04),
+    0 16px 36px rgba(0, 0, 0, 0.35);
   overflow: hidden;
-  animation: gb-pulse 3s ease-in-out infinite;
+  text-align: right;
 }
-@keyframes gb-pulse{
-  0%,100%{ box-shadow: 0 0 0 1px rgba(60,140,255,.08), 0 24px 60px rgba(0,0,0,.4), 0 0 80px rgba(60,140,255,.06); }
-  50%    { box-shadow: 0 0 0 3px rgba(60,140,255,.14), 0 24px 60px rgba(0,0,0,.4), 0 0 100px rgba(60,140,255,.12); }
-}
-
-/* ambient corner dots */
-.gb-dot{
+.cgb-dot {
   position: absolute;
+  width: 140px; height: 140px;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(40px);
+  filter: blur(24px);
+  background: radial-gradient(circle, rgba(60, 140, 255, 0.05), transparent 70%);
+  top: -45px;
+  right: -35px;
 }
-.gb-dot-1{
-  width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(60,140,255,.09), transparent 70%);
-  top: -80px; right: -60px;
-}
-.gb-dot-2{
-  width: 160px; height: 160px;
-  background: radial-gradient(circle, rgba(91,163,255,.07), transparent 70%);
-  bottom: -60px; left: 80px;
-}
-.gb-title{
-  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
-  font-weight: 800;
-  line-height: 1.2;
-  color: #fff;
-  margin-bottom: 15px;
-
-  transform: translateY(-8px);
-}
-/* shield icon box */
-.gb-icon{
+.cgb-icon {
   flex-shrink: 0;
-  width: 64px; height: 64px;
-  border-radius: 16px;
-  background: rgba(60,140,255,.1);
-  border: 1px solid rgba(60,140,255,.28);
-  display: flex; align-items: center; justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: rgba(60, 140, 255, 0.08);
+  border: 1px solid rgba(60, 140, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--blue2);
-  box-shadow: 0 0 28px rgba(60,140,255,.18), inset 0 0 16px rgba(60,140,255,.06);
-  transition: transform .3s var(--ease), box-shadow .3s;
+  box-shadow: 0 0 16px rgba(60, 140, 255, 0.08);
+  transition: transform 0.3s var(--ease);
 }
-.guarantee-banner:hover .gb-icon{
-  transform: scale(1.07);
-  box-shadow: 0 0 40px rgba(60,140,255,.32), inset 0 0 20px rgba(60,140,255,.1);
+.cgb-icon svg {
+  width: 30px;
+  height: 30px;
 }
-
-.gb-body{ flex: 1; }
-
-.gb-tag{
-  display: inline-block;
-  background: rgba(60,140,255,.09);
-  border: 1px solid rgba(60,140,255,.18);
-  color: var(--blue2);
-  font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  padding: 4px 12px; border-radius: 999px;
-  margin-bottom: 12px;
+.compare-guarantee-banner:hover .cgb-icon {
+  transform: scale(1.05);
 }
-.ד{
-  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
-  font-weight: 800;
-  line-height: 1.2;
+.cgb-body {
+  flex: 1;
+}
+.cgb-title {
+  font-size: 1.35rem;
+  font-weight: 700;
   color: #fff;
-  margin-bottom: 10px;
-
-  transform: translateY(-12px);
+  margin-bottom: 8px;
+  line-height: 1.25;
 }
-.gb-accent{
+.cgb-accent {
   background: linear-gradient(90deg, var(--blue2), #93c5fd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.gb-desc{
+.cgb-desc {
   color: var(--muted);
-  font-size: .9rem; line-height: 1.75;
-  max-width: 680px;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
-
-@media(max-width: 640px){
-  #guarantee{ padding: 0 20px; }
-  .guarantee-banner{
+@media(max-width: 768px) {
+  .compare-guarantee-banner {
+    padding: 20px 28px;
+    gap: 0;
+    max-width: 640px;
+    margin: 28px auto 0;
+  }
+  .cgb-icon {
+    display: none;
+  }
+  .cgb-title {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .cgb-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+}
+@media(max-width: 580px) {
+  .compare-guarantee-banner {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 28px 24px;
-    text-align: right;
+    align-items: center;
+    text-align: center;
+    padding: 22px 24px;
   }
 }
 
@@ -2749,7 +2729,7 @@ footer{
       <span class="line1">לקחת את העסק שלכם</span>
       <span class="shiny">צעד אחד קדימה.</span>
     </h1>
-    <p class="hero-sub" id="he3">AK STUDIO מייצרת דפי נחיתה חכמים, נקיים ומעוצבים ברמה גבוהה — כאלה שמציגים את העסק שלך בצורה יוקרתית ומניעים לפעולה.</p>
+    <p class="hero-sub" id="he3">בניית דפי נחיתה מעוצבים, נקיים וממוקדי המרה שמביאים תוצאות.</p>
     <div class="hero-btns" id="he4">
       <a href="#contact" class="btn-hero-primary">
         בוא נשדרג לך את העסק
@@ -2897,7 +2877,7 @@ footer{
       <div class="about-text">
         
         <h2>נעים להכיר — AK STUDIO</h2>
-        <p>AK STUDIO בונה אתרים ודפי נחיתה לעסקים שרוצים להיראות רציניים מהרגע הראשון. העבודה שלנו משלבת עיצוב מוקפד, חשיבה שיווקית וביצועים טכניים נקיים, כדי ליצור חוויה שמרגישה יוקרתית, עובדת מהר ומובילה את הלקוח לפעולה.</p>
+        <p>AK STUDIO בונה אתרים ודפי נחיתה לעסקים שרוצים להיראות רציניים מהרגע הראשון. העבודה שלנו משלבת עיצוב מוקפד, חשיבה שיווקית וביצועים טכניים נקיים, כדי ליצור חוויה שמרגישה יוקרתית, עובדת מהר ומקצועית.</p>
       </div>
     </div>
     
@@ -2947,31 +2927,20 @@ footer{
         בוא נתחיל היום
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       </a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ══════ GUARANTEE BANNER ══════ -->
-<section id="guarantee" aria-label="גרנטי">
-  <div class="sec-inner">
-    <div class="guarantee-banner rv">
-      <!-- ambient dots -->
-      <div class="gb-dot gb-dot-1"></div>
-      <div class="gb-dot gb-dot-2"></div>
-      <!-- icon -->
-      <div class="gb-icon">
-        <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <polyline points="9 12 11 14 15 10"/>
-        </svg>
-      </div>
-      <!-- text -->
-      <div class="gb-body">
-        <div class="gb-tag">ואם אני לא אוהב את התוצאה?</div>
-   <h2 class="gb-title">לא אהבת? <span class="gb-accent">לא שילמת.</span></h2>
-        <p class="gb-desc">אם עד שבוע אחרי העלייה לאוויר לא תהיו מרוצים מהתוצאה – תקבלו 100% מעלות ההקמה בחזרה. בלי שאלות, בלי תירוצים.</p>
+      
+      <!-- ── INTEGRATED COMPARE GUARANTEE BANNER ── -->
+      <div class="compare-guarantee-banner rv">
+        <div class="cgb-dot"></div>
+        <div class="cgb-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div class="cgb-body">
+          <div class="cgb-title">לא אהבת? <span class="cgb-accent">לא שילמת.</span></div>
+          <p class="cgb-desc">אם עד שבוע אחרי העלייה לאוויר לא תהיו מרוצים מהתוצאה – תקבלו 100% מעלות ההקמה בחזרה. בלי שאלות, בלי תירוצים.</p>
+        </div>
       </div>
     </div>
   </div>
